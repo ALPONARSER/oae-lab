@@ -38,6 +38,100 @@
                 Calculate
             </button>
         </section>
+        
+        <section id="beam-visualization">
+            <h2>Beam Geometry & Loading</h2>
+
+            <svg
+                id="beam-svg"
+                viewBox="0 0 800 260"
+                width="100%"
+                role="img"
+                aria-label="Simply supported beam with uniformly distributed load">
+
+                <!-- Beam -->
+                <line
+                    x1="100" y1="150"
+                    x2="700" y2="150"
+                    stroke="currentColor"
+                    stroke-width="6"
+                />
+
+                <!-- Left pinned support -->
+                <polygon
+                    points="100,155 80,185 120,185"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                />
+
+                <!-- Right roller support -->
+                <polygon
+                    points="700,155 680,185 720,185"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                />
+
+                <circle cx="690" cy="193" r="6"
+                        fill="none" stroke="currentColor" stroke-width="2"/>
+                <circle cx="710" cy="193" r="6"
+                        fill="none" stroke="currentColor" stroke-width="2"/>
+
+                <!-- Uniform load -->
+                <line x1="100" y1="65" x2="700" y2="65"
+                    stroke="#d97706" stroke-width="2"/>
+
+                <g stroke="#d97706" stroke-width="2" fill="#d97706">
+                    <path d="M100 65 V125 M94 115 L100 127 L106 115"/>
+                    <path d="M200 65 V125 M194 115 L200 127 L206 115"/>
+                    <path d="M300 65 V125 M294 115 L300 127 L306 115"/>
+                    <path d="M400 65 V125 M394 115 L400 127 L406 115"/>
+                    <path d="M500 65 V125 M494 115 L500 127 L506 115"/>
+                    <path d="M600 65 V125 M594 115 L600 127 L606 115"/>
+                    <path d="M700 65 V125 M694 115 L700 127 L706 115"/>
+                </g>
+
+                <!-- Labels -->
+                <g fill="currentColor" font-size="20" text-anchor="middle">
+                    <text id="svg-load-label" x="400" y="45">w = 10 kN/m</text>
+                    <text x="100" y="220">A</text>
+                    <text x="700" y="220">B</text>
+                    <text id="svg-length-label" x="400" y="245">L = 6 m</text>
+                </g>
+            </svg>
+        </section>
+
+
+        
+        <section id="beam-diagrams">
+            <h2>Internal Force Diagrams</h2>
+
+            <div class="diagram-container">
+                <h3>Shear Force Diagram (SFD)</h3>
+
+                <svg
+                    id="shear-svg"
+                    viewBox="0 0 800 260"
+                    width="100%"
+                    role="img"
+                    aria-label="Shear force diagram">
+                </svg>
+            </div>
+
+            <div class="diagram-container">
+                <h3>Bending Moment Diagram (BMD)</h3>
+
+                <svg
+                    id="moment-svg"
+                    viewBox="0 0 800 260"
+                    width="100%"
+                    role="img"
+                    aria-label="Bending moment diagram">
+                </svg>
+            </div>
+        </section>
+
 
         <section id="beam-results">
             <h2>Analysis Results</h2>

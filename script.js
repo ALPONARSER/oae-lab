@@ -240,7 +240,21 @@ if (calculateButton) {
         }
 
         const result = analyzeUniformlyLoadedBeam(L, w, E, I);
+        drawShearDiagram(L, w);
+        drawMomentDiagram(L, w);
+
+
         
+        const lengthLabel = document.getElementById("svg-length-label");
+        const loadLabel = document.getElementById("svg-load-label");
+
+        if (lengthLabel && loadLabel) {
+            lengthLabel.textContent = `L = ${L} m`;
+            loadLabel.textContent = `w = ${w} kN/m`;
+        }
+
+
+
         const RA = result.reactions.A;
         const RB = result.reactions.B;
         const Mmax = result.maximumMoment.value;
@@ -259,3 +273,134 @@ if (calculateButton) {
         `;
     });
 }
+
+function drawShearDiagram(length, load) {
+    const svg = document.getElementById("shear-svg");
+
+    if (!svg) return;
+
+    const startX = 100;
+    const endX = 700;
+    const centerY = 130;
+    const scaleY = 85;
+
+    const shearA = calculateShearForce(length, load, 0);
+    const shearB = calculateShearForce(length, load, length);
+
+    const maxAbsShear = Math.max(
+        Math.abs(shearA),
+        Math.abs(shearB)
+    );
+
+    const yA = centerY -
+        (maxAbsShear > 0 ? shearA / maxAbsShear * scaleY : 0);
+
+    const yB = centerY -
+        (maxAbsShear > 0 ? shearB / maxAbsShear * scaleY : 0);
+
+    const polygonPoints =
+        `${startX},${centerY} ` +
+        `${startX},${yA} ` +
+        `${endX},${yB} ` +
+        `${endX},${centerY}`;
+
+    svg.innerHTML = `
+        <line x1="${startX}" y1="${centerY}"
+              x2="${endX}" y2="${centerY}"
+              stroke="currentColor" stroke-width="1"/>
+
+        <polygon points="${polygonPoints}"
+                 fill="#3c9b8f" fill-opacity="0.15"/>
+
+        <line x1="${startX}" y1="${yA}"
+              x2="${endX}" y2="${yB}"
+              stroke="#3c9b8f" stroke-width="3"/>
+
+        <text x="${startX}" y="${yA - 12}"
+              fill="currentColor" font-size="18">
+            ${shearA.toFixed(2)} kN
+        </text>
+
+        <text x="${endX}" y="${yB + 25}"
+              fill="currentColor" font-size="18"
+              text-anchor="end">
+            ${shearB.toFixed(2)} kN
+        </text>
+
+        <text x="${startX}" y="245"
+              fill="currentColor" font-size="18">A</text>
+
+        <text x="${endX}" y="245"
+              fill="currentColor" font-size="18"
+              text-anchor="end">B</text>
+    `;
+}
+
+function drawMomentDiagram(length, load) {
+    const svg = document.getElementById("moment-svg");
+
+    if (!svg) return;
+
+    const startX = 100;
+    const endX = 700;
+    const centerY = 70;
+    const diagramHeight = 140;
+    const steps = 100;
+
+    const maxMoment = Math.abs(
+        calculateBendingMoment(length, load, length / 2)
+    );
+
+    const points = [];
+
+    for (let i = 0; i <= steps; i++) {
+        const x = length * i / steps;
+        const moment = calculateBendingMoment(length, load, x);
+
+        const svgX = startX + (endX - startX) * i / steps;
+
+        const svgY = centerY + (
+            maxMoment > 0
+                ? moment / maxMoment * diagramHeight
+                : 0
+        );
+
+        points.push(`${svgX},${svgY}`);
+    }
+
+    const polylinePoints = points.join(" ");
+
+    const areaPoints =
+        `${startX},${centerY} ` +
+        polylinePoints +
+        ` ${endX},${centerY}`;
+
+    svg.innerHTML = `
+        <line x1="${startX}" y1="${centerY}"
+              x2="${endX}" y2="${centerY}"
+              stroke="currentColor" stroke-width="1"/>
+
+        <polygon points="${areaPoints}"
+                 fill="#3c9b8f" fill-opacity="0.15"/>
+
+        <polyline points="${polylinePoints}"
+                  fill="none"
+                  stroke="#3c9b8f"
+                  stroke-width="3"/>
+
+        <text x="400" y="235"
+              text-anchor="middle"
+              fill="currentColor" font-size="18">
+              Mmax = ${calculateBendingMoment(length, load, length / 2).toFixed(2)} kN·m
+
+        </text>
+
+        <text x="${startX}" y="55"
+              fill="currentColor" font-size="18">A</text>
+
+        <text x="${endX}" y="55"
+              text-anchor="end"
+              fill="currentColor" font-size="18">B</text>
+    `;
+}
+
