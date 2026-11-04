@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beam Analysis | OAE LAB</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="index.html">OAE LAB</a>
+        <h1>Beam Analysis</h1>
+        <p>Module 01 — Simply Supported Beam</p>
+    </header>
+
+    <main>
+        <section id="beam-inputs">
+            <h2>Input Parameters</h2>
+
+            <label for="beam-length">Beam Length (m)</label>
+            <input type="number" id="beam-length"
+                   value="6" min="0" step="any">
+
+            <label for="beam-load">Uniform Load (kN/m)</label>
+            <input type="number" id="beam-load"
+                   value="10" step="any">
+
+            <label for="beam-e">Elastic Modulus (kN/m²)</label>
+            <input type="number" id="beam-e"
+                   value="30000000" min="0" step="any">
+
+            <label for="beam-i">Moment of Inertia (m⁴)</label>
+            <input type="number" id="beam-i"
+                   value="0.01" min="0" step="any">
+
+            <button type="button" id="calculate-button">
+                Calculate
+            </button>
+        </section>
+
+        <section id="beam-results">
+            <h2>Analysis Results</h2>
+            <p id="result-status">
+                Enter parameters and click Calculate.
+            </p>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

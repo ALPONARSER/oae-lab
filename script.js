@@ -216,3 +216,46 @@ const beamAnalysis = analyzeUniformlyLoadedBeam(
 );
 
 console.log("BİRLEŞİK KİRİŞ ANALİZİ:", beamAnalysis);
+
+const calculateButton = document.getElementById("calculate-button");
+
+if (calculateButton) {
+    calculateButton.addEventListener("click", function () {
+
+        const L = Number(document.getElementById("beam-length").value);
+        const w = Number(document.getElementById("beam-load").value);
+        const E = Number(document.getElementById("beam-e").value);
+        const I = Number(document.getElementById("beam-i").value);
+
+        const resultElement = document.getElementById("result-status");
+
+        if (!Number.isFinite(L) || L <= 0 ||
+            !Number.isFinite(w) ||
+            !Number.isFinite(E) || E <= 0 ||
+            !Number.isFinite(I) || I <= 0) {
+
+            resultElement.textContent =
+                "Invalid input. Check length, load, E and I.";
+            return;
+        }
+
+        const result = analyzeUniformlyLoadedBeam(L, w, E, I);
+        
+        const RA = result.reactions.A;
+        const RB = result.reactions.B;
+        const Mmax = result.maximumMoment.value;
+        const deltaMaxMM = result.maximumDeflection.valueMM;
+
+        resultElement.innerHTML = `
+            <strong>Support Reactions</strong>
+            <p>RA = ${RA.toFixed(3)} kN</p>
+            <p>RB = ${RB.toFixed(3)} kN</p>
+
+            <strong>Maximum Bending Moment</strong>
+            <p>Mmax = ${Mmax.toFixed(3)} kN·m</p>
+
+            <strong>Maximum Deflection</strong>
+            <p>δmax = ${deltaMaxMM.toFixed(4)} mm</p>
+        `;
+    });
+}
