@@ -15,29 +15,35 @@
     </header>
 
     <main>
-        <section id="beam-inputs">
-            <h2>Input Parameters</h2>
+        <main class="beam-workspace">
+            <div class="beam-input-panel">
 
-            <label for="beam-length">Beam Length (m)</label>
-            <input type="number" id="beam-length"
-                   value="6" min="0" step="any">
+            <section id="beam-inputs">
+                <h2>Input Parameters</h2>
 
-            <label for="beam-load">Uniform Load (kN/m)</label>
-            <input type="number" id="beam-load"
-                   value="10" step="any">
+                <label for="beam-length">Beam Length (m)</label>
+                <input type="number" id="beam-length"
+                       value="6" min="0" step="any">
 
-            <label for="beam-e">Elastic Modulus (kN/m²)</label>
-            <input type="number" id="beam-e"
-                   value="30000000" min="0" step="any">
+                <label for="beam-load">Uniform Load (kN/m)</label>
+                <input type="number" id="beam-load"
+                    value="10" step="any">
 
-            <label for="beam-i">Moment of Inertia (m⁴)</label>
-            <input type="number" id="beam-i"
-                   value="0.01" min="0" step="any">
+                <label for="beam-e">Elastic Modulus (kN/m²)</label>
+                <input type="number" id="beam-e"
+                    value="30000000" min="0" step="any">
 
-            <button type="button" id="calculate-button">
-                Calculate
-            </button>
-        </section>
+                <label for="beam-i">Moment of Inertia (m⁴)</label>
+                <input type="number" id="beam-i"
+                    value="0.01" min="0" step="any">
+
+                <button type="button" id="calculate-button">
+                    Calculate
+                </button>
+            </section>
+        </div>
+        <div class="beam-analysis-panel">
+
         
         <section id="beam-visualization">
             <h2>Beam Geometry & Loading</h2>
@@ -139,7 +145,10 @@
                 Enter parameters and click Calculate.
             </p>
         </section>
+    
+        </div>
     </main>
+
 
     <script src="script.js"></script>
 </body>
